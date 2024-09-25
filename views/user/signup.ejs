@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+  <link rel="stylesheet" href="/style.css"><!-- Link to a CSS file for styling -->
+</head>
+
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+
+    <% if (error) { %>
+      <div class="error">
+        <p><%= error %></p>
+      </div>
+    <% } %>
+
+    <form action="/signup" method="POST">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmpassword">Password confirm</label>
+        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Enter your password again" required>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn">Sign Up</button>
+      </div>
+    </form>
+
+    <p>Already have an account? <a href="/login">Login here</a></p>
+  </div>
+</body>
+</html>

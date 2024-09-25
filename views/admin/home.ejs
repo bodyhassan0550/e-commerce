@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+    <!-- Include the navigation bar -->
+    <%- include('../includes/adminNav') %>
+
+    <h2>All Products</h2>
+
+    <% if (products.length === 0) { %>
+        <p>No products available.</p>
+        <a href="/admin/add-product"><button>Add Product</button></a>
+    <% } else { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(product => { %>
+                    <tr>
+                        <td><%= product.title %></td>
+                        <td>$<%= product.price %></td>
+                        <td><%= product.description %></td>
+                        <td><img src="<%= product.image %>" alt="<%= product.title %>" width="100"></td>
+                        <td>
+                            <form action="/admin/delete-product" method="POST" style="display:inline;">
+                                <input type="hidden" name="productId" value="<%= product._id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <a href="/admin/edit-product/<%= product._id %>">Update</a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+</body>
+</html>
