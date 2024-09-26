@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.title %> - Details</title>
+    <link rel="stylesheet" href="/detalis.css">
+</head>
+<body>
+    <!-- Include the navigation bar -->
+    <%- include('../includes/nav') %>
+
+    <div class="product-details-container">
+        <div class="product-details-image">
+            <img src="<%= product.image %>" alt="<%= product.title %>" width="400">
+        </div>
+        <div class="product-details-info">
+            <h2><%= product.title %></h2>
+            <p><strong>Price:</strong> $<%= product.price %></p>
+            <p><strong>Description:</strong> <%= product.description %></p>
+
+            <!-- Add to Cart form -->
+            <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <button type="submit" class="btn-add-cart">Add to Cart</button>
+            </form>
+
+            <a href="/"><button class="btn-back">Back to Products</button></a>
+        </div>
+    </div>
+</body>
+</html>

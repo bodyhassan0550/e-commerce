@@ -1,5 +1,7 @@
 const express = require("express")
 const userControl = require("../controller/user")
+const productControl = require("../controller/product");
+
 const { check } = require("express-validator");
 
 const router = express.Router()
@@ -16,5 +18,13 @@ router.post(
 router.get("/login", userControl.getlogin);
 router.post("/login", userControl.postlogin);
 router.post("/logout", userControl.postlogout);
+
+
+router.get("/", productControl.getProduct);
+router.get("/product/:id", productControl.getProductDetails);
+router.get("/cart", productControl.getCart);
+router.post("/cart/add", productControl.postAddCart);
+router.post("/cart/increase-quantity", productControl.postIncQuan);
+router.post("/cart/decrease-quantity", productControl.postDecQuan);
 
 module.exports = router;

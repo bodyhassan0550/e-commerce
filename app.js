@@ -6,7 +6,7 @@ const session= require("express-session")
 const User = require("./models/user")
 
 const UserRouter = require("./router/User")
-const ProductRouter = require("./router/product")
+const ProductRouter = require("./router/admin")
 const app = express();
 
 app.use(bodyparser.urlencoded({extended:false}))

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="/cart.css">
+</head>
+<body>
+     <%- include('../includes/nav') %>
+
+<div class="cart-container">
+  <h2>Your Cart</h2>
+
+  <% if (cart.items.length === 0) { %>
+    <p>Your cart is empty!</p>
+    <a href="/products"><button class="checkout">Continue Shopping</button></a>
+  <% } else { %>
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cart.items.forEach(item => { %>
+          <tr>
+            <td><%= item.product.title %></td>
+            <td>$<%= item.product.price %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= item.product.price * item.quantity %></td>
+            <td>
+              <div class="cart-buttons">
+                <form action="/cart/increase-quantity" method="POST">
+                  <input type="hidden" name="productId" value="<%= item.product._id %>">
+                  <button class="add">Add One</button>
+                </form>
+                <form action="/cart/decrease-quantity" method="POST">
+                  <input type="hidden" name="productId" value="<%= item.product._id %>">
+                  <button class="remove">Remove One</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <div class="cart-total-section">
+      <p class="total">Total: $<%= cartTotal %></p>
+      <form action="/checkout" method="POST">
+        <button class="checkout">Proceed to Checkout</button>
+      </form>
+    </div>
+  <% } %>
+</div>
+
+</body>
+</html>

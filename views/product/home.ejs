@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Product List</title>
+    <link rel="stylesheet" href="/home.css">
 </head>
 <body>
-    <p>Hello <%=user.name%></p>
-    <form action="/logout" method="post">
-        <button>logout</button>
-    </form>
+    <!-- Include the navigation bar -->
+    <%- include('../includes/nav') %>
+
+    <h2>Available Products</h2>
+
+    <% if (products.length === 0) { %>
+        <p>No products available.</p>
+    <% } else { %>
+        <div class="product-list">
+            <% products.forEach(product => { %>
+                <div class="product-card">
+                    <img src="<%= product.image %>" alt="<%= product.title %>" class="product-image">
+                    <h3><%= product.title %></h3>
+                    <p>Price: $<%= product.price %></p>
+                    <p><%= product.description %></p>
+                    <div class="product-actions">
+                        <a href="/product/<%= product._id %>"><button class="btn-details">Details</button></a>
+                        <form action="/cart/add" method="POST">
+                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+
 </body>
 </html>

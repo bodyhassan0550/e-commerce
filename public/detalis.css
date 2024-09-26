@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.product-details-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 40px;
+}
+
+.product-details-image img {
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-info {
+    max-width: 500px;
+}
+
+.product-details-info h2 {
+    margin-top: 0;
+}
+
+.btn-add-cart, .btn-back {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.btn-add-cart:hover, .btn-back:hover {
+    background-color: #218838;
+}
+/* Navigation Bar Styling */
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-search form {
+    display: flex;
+}
+
+.nav-search input {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 14px;
+}
+
+.nav-search button {
+    padding: 6px 10px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.nav-user form {
+    margin-left: 20px;
+}
+
+.btn-logout {
+    background-color: #dc3545;
+    border: none;
+    padding: 8px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
