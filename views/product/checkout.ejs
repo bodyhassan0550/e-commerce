@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="/cart.css">
+</head>
+<body>
+  <%- include('../includes/nav') %>
+
+<div class="cart-container">
+<main>
+        <h1>Checkout</h1>
+        <ul>
+            <% products.forEach(product => { %>
+                <li>
+                    <h2><%= product.productId.title %></h2>
+                    <p><%= product.productId.description %></p>
+                    <p>Price: $<%= product.productId.price %></p>
+                    <p>Quantity: <%= product.quantity %></p>
+                </li>
+            <% }); %>
+        </ul>
+        <h3>Total: $<%= totalSum %></h3>
+
+        <!-- Checkout Button -->
+        <form action="https://checkout.stripe.com/pay/<%= sessionId %>" method="POST">
+            <button type="submit">Proceed to Payment</button>
+        </form>
+    </main>
+    </div>
+
+</body>
+</html>

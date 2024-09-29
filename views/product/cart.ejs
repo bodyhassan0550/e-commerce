@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/cart.css">
 </head>
 <body>
-     <%- include('../includes/nav') %>
+  <%- include('../includes/nav') %>
 
 <div class="cart-container">
   <h2>Your Cart</h2>
@@ -52,8 +52,8 @@
 
     <div class="cart-total-section">
       <p class="total">Total: $<%= cartTotal %></p>
-      <form action="/checkout" method="POST">
-        <button class="checkout">Proceed to Checkout</button>
+      <form action="/order" method="POST">
+        <button class="checkout">Check out</button>
       </form>
     </div>
   <% } %>

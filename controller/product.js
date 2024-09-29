@@ -1,7 +1,11 @@
 const product = require("../models/product");
 const Product = require("../models/product");
 const User = require("../models/user");
-
+const Order = require("../models/order");
+const user = require("../models/user");
+const stripe = require("stripe")(
+  "sk_test_51PojA9KbccDyqiztJwdKiEpMre9FTJTdqmQ4JouPaWj8pkXLvffkVZGzki53wmrXQLaXj1TP5McrUBa1Bxl0hpup009Hf0rNZR"
+);
 exports.getProduct = (req, res, next) => {
   Product.find().then((product) => {
     res.render("product/home", {
@@ -204,8 +208,7 @@ exports.postDecQuan = (req, res, next) => {
       if (CartProductIndex >= 0) {
         if (user.cart.items[CartProductIndex].quantity > 1) {
           user.cart.items[CartProductIndex].quantity -= 1;
-        }
-        else{
+        } else {
           user.cart.items.splice(CartProductIndex, 1);
         }
       }
@@ -219,3 +222,95 @@ exports.postDecQuan = (req, res, next) => {
       res.redirect("/"); // Redirect in case of an error
     });
 };
+
+exports.postCreateOrder = (req, res, next) => {
+  let products;
+  let total = 0;
+  req.user
+    .populate("cart.items.productId")
+    .then((user) => {
+      products = user.cart.items;
+      total = 0;
+      products.forEach((p) => {
+        total += p.quantity * p.productId.price;
+      });
+      return stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: products.map((p) => {
+          return {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: p.productId.title,
+                description: p.productId.description,
+              },
+              unit_amount: p.productId.price * 100, // Stripe expects the amount in cents
+            },
+            quantity: p.quantity,
+          };
+        }),
+        mode: "payment",
+        success_url:req.protocol + "://" + req.get("host") + "/checkout/success",
+        cancel_url: req.protocol + "://" + req.get("host") + "/checkout/cancel",
+      });
+    })
+    .then((session) => {
+      res.render("product/checkout", {
+        path: "/checkout",
+        pageTitle: "Checkout",
+        products: products,
+        totalSum: total,
+        sessionId: session.id,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.getOrder = (req, res, next) => {
+  Order.find({ "user.userId": req.user._id })
+    .then((orders) => {
+      res.render("product/orders", {
+        path: "/orders",
+        title: "Your Orders",
+        orders: orders,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+exports.postSuccessOrder = (req, res, next) => {
+  rq.user
+    .populate("cart.items.productId")
+    .then((user) => {
+      const products = user.cart.items.map((i) => {
+        return { quantity: i.quantity, product: { ...i.productId._doc } };
+      });
+      const order = new Order({
+        user: {
+          email: req.user.email,
+          userId: req.user,
+        },
+        products: products,
+      });
+      return order.save();
+    })
+    .then(() => {
+      req.user.cart.items = [];
+      return req.user.save();
+    })
+    .then(() => {
+      res.redirect("/orders");
+    });
+};
+exports.getSearchProduct=(req,res,next)=>{
+  const productName = req.query.title;
+  console.log(productName);
+  Product.find({title:productName}).then(product=>{
+    res.render("product/home", {
+      title: product.title,
+      path: "/Products",
+      products: product,
+    });
+  })
+}

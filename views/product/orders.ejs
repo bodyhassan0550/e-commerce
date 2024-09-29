@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Orders</title>
+  <link rel="stylesheet" href="/cart.css">
+</head>
+<body>
+  <!-- Include navigation bar -->
+  <%- include('../includes/nav') %>
+  
+  <main>
+    <% if (orders.length > 0) { %>
+    <h1>Your Orders</h1>
+    <ul>
+      <% orders.forEach(order => { %>
+      <li>
+        <h3>Order ID: <%= order._id %></h3>
+        <ul>
+          <% order.product.forEach(p => { %>
+          <li>
+            <strong>Product:</strong> <%= p.product.title %><br />
+            <strong>Quantity:</strong> <%= p.quantity %><br />
+          </li>
+          <% }) %>
+        </ul>
+      </li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <h1 class="no-orders">No orders found...</h1>
+    <% } %>
+  </main>
+</body>
+</html>
